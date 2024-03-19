@@ -1,14 +1,13 @@
-import { Form } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
+import { getContact } from "../contacts";
 
+export async function loader({ params }) {
+    const contact = await getContact(params.contactId);
+    return { contact };
+}
+  
 export default function Contact() {
-  const contact = {
-    first: "Your",
-    last: "Name",
-    avatar: "https://imgs.search.brave.com/_RPuwruLrun7Wm-MOqDig-ucd5Y_kWAff7Vn154y3ao/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2JkLzA2/Lzk0L2JkMDY5NDgy/YTY1OTU5ZmM5NWMz/ZjU3OWI0ODgzYzEz/LmpwZw",
-    twitter: "your_handle",
-    notes: "Some notes",
-    favorite: true,
-  };
+  const {contact} = useLoaderData();
 
   return (
     <div id="contact">
@@ -67,9 +66,8 @@ export default function Contact() {
       </div>
     </div>
   );
-}
 
-function Favorite({ contact }) {
+  function Favorite({ contact }) {
   // yes, this is a `let` for later
   let favorite = contact.favorite;
   return (
@@ -87,4 +85,4 @@ function Favorite({ contact }) {
       </button>
     </Form>
   );
-}
+}}
